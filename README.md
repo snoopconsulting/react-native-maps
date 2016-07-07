@@ -2,7 +2,7 @@
 
 This is my react-native-maps fork. There are many like it but this one is mine.
 
-And we ( are plannig to have ) cluster support on this one.
+And we ( are planning to have ) cluster support on this one.
 
 Original README follows:
 

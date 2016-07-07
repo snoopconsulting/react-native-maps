@@ -1,5 +1,12 @@
 # react-native-maps
 
+This is my react-native-maps fork. There are many like it but this one is mine.
+
+And we ( are plannig to have ) cluster support on this one.
+
+Original README follows:
+
+
 React Native Map components for iOS + Android
 
 ## Installation

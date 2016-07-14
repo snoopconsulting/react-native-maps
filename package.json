@@ -3,7 +3,7 @@
   "description": "React Native Mapview component for iOS + Android",
   "main": "index.js",
   "author": "Leland Richardson <leland.m.richardson@gmail.com>",
-  "version": "0.6.0",
+  "version": "0.7.1",
   "scripts": {
     "start": "react-native start"
   },
@@ -20,9 +20,12 @@
     "google-maps",
     "mapkit"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
   "devDependencies": {
-    "react": "15.1.0",
-    "react-native": "0.27.2"
+    "react": "15.2.0",
+    "react-native": "0.29.0"
   }
 }

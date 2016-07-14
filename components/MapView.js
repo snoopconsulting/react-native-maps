@@ -377,6 +377,12 @@ var MapView = React.createClass({
     }
   },
 
+  //ramiro
+  addMarker: function (annotation) {
+    this._runCommand('addMarker', [annotation]);
+  },
+
+
   animateToRegion: function (region, duration) {
     this._runCommand('animateToRegion', [region, duration || 500]);
   },
@@ -411,6 +417,8 @@ var MapView = React.createClass({
         break;
 
       case 'ios':
+        console.log('NativeModules.AIRMapManager:');
+        console.log(NativeModules.AIRMapManager);
         NativeModules.AIRMapManager[name].apply(
           NativeModules.AIRMapManager[name],
           [this._getHandle(), ...args]

@@ -51,6 +51,7 @@ import java.util.Map;
 
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
@@ -91,6 +92,10 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     private ThemedReactContext context;
 
     final EventDispatcher eventDispatcher;
+
+    private BitmapDescriptor clusterIcon;
+    private BitmapDescriptor hotspotIcon;
+
 
     public AirMapView(ThemedReactContext context, Context appContext, AirMapManager manager) {
         super(appContext);
@@ -276,6 +281,11 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         };
 
         context.addLifecycleEventListener(lifecycleListener);
+
+        this.clusterIcon = BitmapDescriptorFactory.fromAsset("cluster.png");
+        this.hotspotIcon = BitmapDescriptorFactory.fromAsset("hotspot.png");
+
+
     }
 
     private boolean hasPermissions() {
@@ -733,9 +743,15 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     }
 
     public Marker addMarker(Double lat, Double lng, String title) {
+
+        if ( this.clusterIcon == null || this.hotspotIcon == null ) {
+            // Bueno todavía no los inicializó? probamos más tarde
+            return null;
+        }
+
         return map.addMarker(new MarkerOptions()
         .position(new LatLng(lat, lng))
-        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        .icon(title.equals("cluster") ? this.clusterIcon : this.hotspotIcon )
         .title(title));
     }
 

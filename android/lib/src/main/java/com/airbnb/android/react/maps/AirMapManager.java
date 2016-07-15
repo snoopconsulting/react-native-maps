@@ -276,7 +276,9 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
                     lng = spot.getDouble("lng");
 
                     Marker spotMarker = view.addMarker(lat, lng, type);
-                    this.markersMap.put(id,spotMarker);
+                    if ( spotMarker != null ) {
+                        this.markersMap.put(id,spotMarker);
+                    }
                 }
 
                 for ( int i = 0; i < oldIds.size(); i++ ) {

@@ -183,6 +183,12 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
         Double latDelta;
         ReadableMap region;
 
+        ReadableMap spot;
+        ReadableMap coordinate;
+        Double latitude;
+        Double longitude;
+
+
         switch (commandId) {
             case ANIMATE_TO_REGION:
                 region = args.getMap(0);
@@ -211,9 +217,26 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
                 break;
 
             case ADD_MARKER:
-                //algo
-                System.err.println("Hola mi nombre es ADD_MARKER");
-                emitMapError("ADD_MARKER not yet implemented", "ADD_MARKER");
+                //llega:
+            /*
+                {
+                title: spot.count ? '' + spot.count : '' + 1,
+                subtitle: spot.isHotspot() ? 'Hotspot' : 'Cluster',
+                coordinate: {
+                  latitude : spot.lat,
+                  longitude: spot.lon
+                }
+              }
+            */
+                // System.out.println("Hola mi nombre es ADD_MARKER");
+
+                spot = args.getMap(0);
+                coordinate = spot.getMap("coordinate");
+                latitude = coordinate.getDouble("latitude");
+                longitude = coordinate.getDouble("longitude");
+
+                view.addMarker(latitude, longitude);
+                // System.out.println("ADD_MARKER: Marker lat: " + latitude + " lng: " + longitude);
 
                 break;
         }
@@ -286,8 +309,11 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
     }
 
     void pushEvent(View view, String name, WritableMap data) {
-        reactContext.getJSModule(RCTEventEmitter.class)
-                .receiveEvent(view.getId(), name, data);
+        // HACK esta view puede ser null si uso markers creados por afuera.
+        if ( view != null ) {
+            reactContext.getJSModule(RCTEventEmitter.class)
+                    .receiveEvent(view.getId(), name, data);            
+        }
     }
 
 }

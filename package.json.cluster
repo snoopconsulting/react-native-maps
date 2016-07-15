@@ -1,0 +1,28 @@
+{
+  "name": "react-native-maps-cluster",
+  "description": "WIP React Native Mapview component for iOS + Android",
+  "main": "index.js",
+  "author": "Forker from Leland Richardson <leland.m.richardson@gmail.com>",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "react-native start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snoopconsulting/react-native-maps-cluster"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "react-component",
+    "map",
+    "mapview",
+    "google-maps",
+    "mapkit"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "react": "15.1.0",
+    "react-native": "0.27.2"
+  }
+}

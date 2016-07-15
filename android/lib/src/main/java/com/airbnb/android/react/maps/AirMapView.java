@@ -48,6 +48,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
@@ -184,6 +188,10 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
                 event = makeClickEventData(marker.getPosition());
                 event.putString("action", "callout-press");
                 AirMapMarker markerView = markerMap.get(marker);
+                if ( markerView == null ) {
+                    //HACK Debe ser un marker que agregamos por afuera
+                    return;
+                }
                 manager.pushEvent(markerView, "onCalloutPress", event);
 
                 event = makeClickEventData(marker.getPosition());
@@ -517,13 +525,23 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     @Override
     public View getInfoWindow(Marker marker) {
         AirMapMarker markerView = markerMap.get(marker);
-        return markerView.getCallout();
+        // HACK esta view puede ser null si uso markers creados por afuera.
+        if ( markerView != null ) {
+            return markerView.getCallout();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public View getInfoContents(Marker marker) {
         AirMapMarker markerView = markerMap.get(marker);
-        return markerView.getInfoContents();
+        // HACK esta view puede ser null si uso markers creados por afuera.
+        if ( markerView != null ) {
+            return markerView.getInfoContents();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -703,5 +721,12 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         LatLng coords = this.map.getProjection().fromScreenLocation(point);
         WritableMap event = makeClickEventData(coords);
         manager.pushEvent(this, "onPanDrag", event);
+    }
+
+    public void addMarker(Double lat, Double lng) {
+        map.addMarker(new MarkerOptions()
+        .position(new LatLng(lat, lng))
+        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        .title("Hello world"));
     }
 }

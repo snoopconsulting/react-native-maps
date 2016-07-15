@@ -390,6 +390,11 @@ var MapView = React.createClass({
     this._runCommand('addMarker', [annotation]);
   },
 
+  updateMarkers: function (newSpots, oldIds, categoriaSeleccionada) {
+    this._runCommand('updateMarkers', [newSpots, oldIds, categoriaSeleccionada]);
+  },
+
+  // fin ramiro
 
   animateToRegion: function (region, duration) {
     this._runCommand('animateToRegion', [region, duration || 500]);

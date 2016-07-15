@@ -31,6 +31,8 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
     private static final int ANIMATE_TO_COORDINATE = 2;
     private static final int FIT_TO_ELEMENTS = 3;
     private static final int ADD_MARKER = 4;
+    private static final int UPDATE_MARKERS = 5;
+
 
     private final Map<String, Integer> MAP_TYPES = MapBuilder.of(
             "standard", GoogleMap.MAP_TYPE_NORMAL,
@@ -239,6 +241,42 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
                 // System.out.println("ADD_MARKER: Marker lat: " + latitude + " lng: " + longitude);
 
                 break;
+            case UPDATE_MARKERS:
+                // Parámetros:
+                // newSpots, oldIds, categoriaSeleccionada
+                // newSpots es distinto que en el addMarker, acá es:
+            /*
+                id : spot.id,
+                type: spot.isHotspot() ? 'hotspot' : 'cluster',
+                count : spot.count,
+                lat : spot.lat,
+                lng : spot.lon
+
+            */
+
+                // oldIds es un array de ids ( strings )
+                // categoriaSeleccionada ignorado
+
+                ReadableArray newSpots;
+                ReadableArray oldIds;
+                String categoriaSeleccionada;
+
+                newSpots = args.getArray(0);
+                oldIds = args.getArray(1);
+                categoriaSeleccionada = args.getString(2);
+
+                System.out.println("Llegaron " + newSpots.size() + " newSpots");
+                System.out.println("Llegaron " + oldIds.size() + " oldIds");
+
+                // spot = args.getMap(0);
+                // coordinate = spot.getMap("coordinate");
+                // latitude = coordinate.getDouble("latitude");
+                // longitude = coordinate.getDouble("longitude");
+
+                // view.addMarker(latitude, longitude);
+                // System.out.println("ADD_MARKER: Marker lat: " + latitude + " lng: " + longitude);
+
+                break;
         }
     }
 
@@ -272,7 +310,8 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
                 "animateToRegion", ANIMATE_TO_REGION,
                 "animateToCoordinate", ANIMATE_TO_COORDINATE,
                 "fitToElements", FIT_TO_ELEMENTS,
-                "addMarker", ADD_MARKER
+                "addMarker", ADD_MARKER,
+                "updateMarkers", UPDATE_MARKERS
         );
     }
 

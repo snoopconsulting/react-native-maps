@@ -723,10 +723,20 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         manager.pushEvent(this, "onPanDrag", event);
     }
 
-    public void addMarker(Double lat, Double lng) {
-        map.addMarker(new MarkerOptions()
+    //Add On Snoop
+
+    public Marker addMarker(Double lat, Double lng) {
+        return map.addMarker(new MarkerOptions()
         .position(new LatLng(lat, lng))
         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
         .title("Hello world"));
     }
+
+    public Marker addMarker(Double lat, Double lng, String title) {
+        return map.addMarker(new MarkerOptions()
+        .position(new LatLng(lat, lng))
+        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        .title(title));
+    }
+
 }

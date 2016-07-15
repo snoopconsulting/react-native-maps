@@ -24,6 +24,9 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import com.google.android.gms.maps.model.Marker;
+import java.util.HashMap;
+
 public class AirMapManager extends ViewGroupManager<AirMapView> {
 
     private static final String REACT_CLASS = "AIRMap";
@@ -33,6 +36,7 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
     private static final int ADD_MARKER = 4;
     private static final int UPDATE_MARKERS = 5;
 
+    private Map<String,Marker> markersMap = new HashMap<String,Marker>();
 
     private final Map<String, Integer> MAP_TYPES = MapBuilder.of(
             "standard", GoogleMap.MAP_TYPE_NORMAL,
@@ -184,11 +188,7 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
         Double lngDelta;
         Double latDelta;
         ReadableMap region;
-
         ReadableMap spot;
-        ReadableMap coordinate;
-        Double latitude;
-        Double longitude;
 
 
         switch (commandId) {
@@ -231,6 +231,9 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
               }
             */
                 // System.out.println("Hola mi nombre es ADD_MARKER");
+                ReadableMap coordinate;
+                Double latitude;
+                Double longitude;
 
                 spot = args.getMap(0);
                 coordinate = spot.getMap("coordinate");
@@ -256,18 +259,33 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
 
                 // oldIds es un array de ids ( strings )
                 // categoriaSeleccionada ignorado
-
-                ReadableArray newSpots;
-                ReadableArray oldIds;
-                String categoriaSeleccionada;
-
-                newSpots = args.getArray(0);
-                oldIds = args.getArray(1);
-                categoriaSeleccionada = args.getString(2);
+                ReadableArray newSpots = args.getArray(0);
+                ReadableArray oldIds = args.getArray(1);
+                String categoriaSeleccionada = args.getString(2);
 
                 System.out.println("Llegaron " + newSpots.size() + " newSpots");
                 System.out.println("Llegaron " + oldIds.size() + " oldIds");
 
+                for ( int i = 0; i < newSpots.size(); i++ ) {
+                    spot = newSpots.getMap(i);
+                    // System.out.println("spot " + spot);                    
+                    String id = spot.getString("id");
+                    String type = spot.getString("type");
+                    Integer count = spot.getInt("count");
+                    lat = spot.getDouble("lat");
+                    lng = spot.getDouble("lng");
+
+                    Marker spotMarker = view.addMarker(lat, lng, type);
+                    this.markersMap.put(id,spotMarker);
+                }
+
+                for ( int i = 0; i < oldIds.size(); i++ ) {
+                    String id = oldIds.getString(i);
+                    Marker marker = this.markersMap.get(id);
+                    if ( marker != null ) {
+                        marker.remove();
+                    }
+                }
                 // spot = args.getMap(0);
                 // coordinate = spot.getMap("coordinate");
                 // latitude = coordinate.getDouble("latitude");
